@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>firstDjangoProject</title>
+    {% load static %}
+    <script type="text/javascript" src="{% static "/client.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "/style.css" %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+</head>
+<body>
+	<div id="title">
+        <div class="container">
+            <div class="row">
+                <div class="coll-lg-12">
+    	            <h1 id="title_label">Информация о подразделениях и сотрудниках</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id = "content">
+        <div id="navigation_button">
+            <button class="btn" id="people" onclick="show(1)">Сотрудники</button>
+            <button class="btn" id="departament" onclick="show(2)">Подразделения</button>
+        </div>
+        <table id = "tablePeople" class="tables" border="1" frame="border" cellpadding="5" cellspacing="10">
+            <tr>
+                <th>
+                    Имя
+                </th>
+                <th>
+                    Фамилия
+                </th>
+                <th>
+                    Дата рождения
+                </th>
+                <th>
+                    E-mail
+                </th>
+                <th>
+                    Фото
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    SergaY
+                </td>
+                <td>
+                    Korolev
+                </td>
+                <td>
+                    10.10.1990
+                </td>
+                <td>
+                    SergaY@ya.ru
+                </td>
+                <td>
+                    Photo
+                </td>
+            </tr>
+        </table>
+        <table id = "tableDepartment" class="tables" border="1" frame="border" cellpadding="5" cellspacing="10">
+            <tr>
+                <th>
+                    Наименование
+                </th>
+                <th>
+                    Адрес
+                </th>
+                <th>
+                    Вебсайт
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Жулики
+                </td>
+                <td>
+                    Самара, коммунистическая 11.3
+                </td>
+                <td>
+                    zhuliki.com
+                </td>
+            </tr>
+        </table>
+        <div id="buttonAddDel">
+            <!--кнопка модального окна добавление сотрудника-->
+            <a href="#myModal" id="buttonAddPeople" class="btn btn-primary" data-toggle="modal">Добавить сотрудника</a>
+            <!-- HTML-код модального окна -->
+            <div id="myModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Заголовок модального окна -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Введите информацию о новом сотруднике</h4>
+                        </div>
+                        <form action="" method="POST"> {% csrf_token %}
+                            <div class="modal-body">
+                                {{ form.as_p }}
+                            </div>
+                            <!-- Футер модального окна -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-primary">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--кнопка модального окна добавление подразделения-->
+            <a href="#myModal2" id="buttonAddDepartment" class="btn btn-primary" data-toggle="modal">Добавить подразделение</a>
+            <!-- HTML-код модального окна -->
+            <div id="myModal2" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Заголовок модального окна -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Введите информацию о новом подразделении</h4>
+                        </div>
+                        <!-- Основное содержимое модже ального окна -->
+                        <form action="" method="POST"> {% csrf_token %}
+                            <div class="modal-body">
+                                {{ form2.as_p }}
+                            </div>
+                            <!-- Футер модального окна -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-primary">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+</body>
+</html>

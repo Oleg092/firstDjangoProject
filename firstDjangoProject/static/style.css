@@ -1,0 +1,45 @@
+#title {
+
+}
+
+#title_label {
+	position: relative;
+	left: 30%;
+}
+
+#tablePeople {
+    display: none;
+}
+.tables {
+    position: relative;
+    left: 3%;
+    top: 10px;
+}
+#tableDepartment{
+
+}
+#buttonAddDel{
+    position: absolute;
+    left: 55%;
+    top: 90px;
+}
+#people {
+
+}
+#departament {
+
+}
+#navigation_button {
+    position: relative;
+    left: 10%;
+    top: 10%;
+}
+#buttonAddPeople {
+    display: none;
+
+}
+#buttonAddDepartment {
+    position: absolute;
+    left: 55%;
+    top: 90px;
+}
