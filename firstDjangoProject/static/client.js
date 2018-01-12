@@ -13,3 +13,13 @@ function show(selector) {//function can replace tables and buttons
 		$("#buttonAddDepartment").css("display", "table");
 	}
 }
+function sleep(millis) {
+    var t = (new Date()).getTime();
+    var i = 0;
+    while (((new Date()).getTime() - t) < millis) {
+        i++;
+    }
+}
+function cleanForm(){
+	//написать функцию очистки форм, шоб после отправки они были пустыми
+}

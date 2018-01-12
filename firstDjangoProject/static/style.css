@@ -43,3 +43,17 @@
     left: 55%;
     top: 90px;
 }
+#avatar {
+    position: relative;
+    top: -50px;
+    left: 150px;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+form {
+    autococomplete: off;
+}
+.inputWishId {
+    display: none;
+}

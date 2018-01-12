@@ -6,6 +6,9 @@ class Departament(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
 
+    def __str__(self):
+        return '{} {}'.format(self.address, self.website)
+
 
 class People(models.Model):
     name = models.CharField(max_length=20)

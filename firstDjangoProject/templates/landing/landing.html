@@ -7,7 +7,9 @@
     <script type="text/javascript" src="{% static "/client.js" %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static "/style.css" %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">-->
+    <!-- Bootstrap -->
+    <link href="{% static "/bootstrap.min.css"%}" rel="stylesheet">
 </head>
 <body>
 	<div id="title">
@@ -25,65 +27,94 @@
             <button class="btn" id="people" onclick="show(1)">Сотрудники</button>
             <button class="btn" id="departament" onclick="show(2)">Подразделения</button>
         </div>
-        <table id = "tablePeople" class="tables" border="1" frame="border" cellpadding="5" cellspacing="10">
-            <tr>
-                <th>
-                    Имя
-                </th>
-                <th>
-                    Фамилия
-                </th>
-                <th>
-                    Дата рождения
-                </th>
-                <th>
-                    E-mail
-                </th>
-                <th>
-                    Фото
-                </th>
-            </tr>
+        <table id = "tablePeople" class="tables" border="0" frame="border" cellpadding="10" cellspacing="15">
+           {% for p in people %}
             <tr>
                 <td>
-                    SergaY
+                    <p>{{ p.lastName }}   |   </p>
                 </td>
                 <td>
-                    Korolev
+                    <p>{{ p.name }}   |   </p>
                 </td>
                 <td>
-                    10.10.1990
+                    <div id="buttonShowMore">
+                        <a href="#myModalp{{ p.id }}" id="buttonShowMore" class="btn btn-primary" data-toggle="modal">Показать больше</a>
+                        <!-- HTML-код модального окна -->
+                        <div id="myModalp{{ p.id }}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Заголовок модального окна -->
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">Информация о сотруднике: </h4>
+                                        </br> {{ p.name }}
+                                        </br> {{ p.surName }}
+                                        </br> {{ p.lastName }}
+                                        <img id="avatar" src="{% static "img/" %}{{ p.photo }}">
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Email: {{ p.email }}  </p></br>
+                                        <p>Департамент: {{ p.departament }} </p></br>
+                                        <p>Дата рождения: {{ p.birdDate }} </p></br>
+
+                                    </div>
+                                    <!-- Футер модального окна -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        <button type="submit" class="btn btn-primary">Редактировать данные</button>
+                                        <form action="" method="POST"> {% csrf_token %}
+                                            <input class = "inputWishId" type="text" id="flag2" value="people" name="delete" required="">
+                                            <input class = "inputWishId" type="text" id="del_pipl" value="{{ p.id }}" name="id" required="">
+                                            <button type="submit" class="btn btn-primary">Удалить сотрудника</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
-                <td>
-                    SergaY@ya.ru
-                </td>
-                <td>
-                    Photo
-                </td>
-            </tr>
+            {% endfor %}
         </table>
         <table id = "tableDepartment" class="tables" border="1" frame="border" cellpadding="5" cellspacing="10">
-            <tr>
-                <th>
-                    Наименование
-                </th>
-                <th>
-                    Адрес
-                </th>
-                <th>
-                    Вебсайт
-                </th>
-            </tr>
+            {% for d in departament %}
             <tr>
                 <td>
-                    Жулики
+                    <p>{{ d.name }}</p>
                 </td>
                 <td>
-                    Самара, коммунистическая 11.3
+                    <div id="buttonShowMore2">
+                        <a href="#myModald{{ d.id }}" id="buttonShowMore2" class="btn btn-primary" data-toggle="modal">Показать больше</a>
+                        <!-- HTML-код модального окна -->
+                        <div id="myModald{{ d.id }}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Заголовок модального окна -->
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">Информация о подразделении: </h4>
+                                        </br> {{ d.name }}
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Адрес: {{ d.address }}  </p></br>
+                                        <p>Веб-сайт: {{ d.website }} </p></br>
+                                    </div>
+                                    <!-- Футер модального окна -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        <button type="submit" class="btn btn-primary">Редактировать данные</button>
+                                        <form action="" method="POST"> {% csrf_token %}
+                                            <input class = "inputWishId" type="text" id="flag1" value="departament" name="delete" required="">
+                                            <input class = "inputWishId" type="text" id="del_dep" value="{{ d.id }}" name="id" required="">
+                                            <button type="submit" class="btn btn-primary">Удалить подразделение</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
-                <td>
-                    zhuliki.com
-                </td>
-            </tr>
+            {% endfor %}
         </table>
         <div id="buttonAddDel">
             <!--кнопка модального окна добавление сотрудника-->
@@ -104,7 +135,7 @@
                             <!-- Футер модального окна -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                <button type="submit" class="btn btn-primary">Добавить</button>
+                                <button type="submit" onclick="clearForm()" class="btn btn-primary">Добавить</button>
                             </div>
                         </form>
                     </div>
@@ -112,9 +143,9 @@
             </div>
         </div>
         <!--кнопка модального окна добавление подразделения-->
-            <a href="#myModal2" id="buttonAddDepartment" class="btn btn-primary" data-toggle="modal">Добавить подразделение</a>
+            <a href="#myModal1111" id="buttonAddDepartment" class="btn btn-primary" data-toggle="modal">Добавить подразделение</a>
             <!-- HTML-код модального окна -->
-            <div id="myModal2" class="modal fade">
+            <div id="myModal1111" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <!-- Заголовок модального окна -->
@@ -123,14 +154,14 @@
                             <h4 class="modal-title">Введите информацию о новом подразделении</h4>
                         </div>
                         <!-- Основное содержимое модже ального окна -->
-                        <form action="" method="POST"> {% csrf_token %}
+                        <form id="formAddDep" action="" method="POST"> {% csrf_token %}
                             <div class="modal-body">
                                 {{ form2.as_p }}
                             </div>
                             <!-- Футер модального окна -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                <button type="submit" class="btn btn-primary">Добавить</button>
+                                <button type="submit" onclick="cleanForm(id)" class="btn btn-primary">Добавить</button>
                             </div>
                         </form>
                     </div>
@@ -138,8 +169,13 @@
             </div>
         </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "/jquery-2.2.1.js"%}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "/bootstrap.min.js"%}"></script>
 </body>
 </html>
