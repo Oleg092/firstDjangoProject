@@ -16,11 +16,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.conf.urls import url, include
+from django.views.generic import TemplateView
 
 from landing import views
+from landing.views import PeopleListView#, HomeView
 
 urlpatterns = [
-    url(r'^landing/', views.landing, name='landing')
+    url(r'^landing/', views.landing, name='landing'),
+    #url('home/', HomeView.as_view()),
+    url('home/', PeopleListView.as_view()),
 
 ]
 
