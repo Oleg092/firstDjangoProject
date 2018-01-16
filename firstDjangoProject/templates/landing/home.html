@@ -1,0 +1,14 @@
+{% extends 'landing/base.html' %}
+{% block title %}
+    Люди
+{% endblock %}
+{% load static %}
+{% block content %}
+<h2>Люди</h2>
+    <ul>
+    <h2>а тут я нафигачу вывод человеков например</h2>
+        {% for publisher in object_list %}
+            <li>{{ publisher.name }}</li>
+        {% endfor %}
+    {% endblock %}
+    </ul>
