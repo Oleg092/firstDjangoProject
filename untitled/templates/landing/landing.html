@@ -1,0 +1,220 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+{% block title %}FirstDjangoProject{% endblock %}
+{% block content %}
+    <div id = "content">
+        <div id="navigation_button">
+            <button class="btn" id="people" onclick="show(1)">Сотрудники</button>
+            <button class="btn" id="departament" onclick="show(2)">Подразделения</button>
+        </div>
+        <table id = "tablePeople" class="tables" border="0" frame="border" cellpadding="10" cellspacing="15">
+           {% for p in people %}
+            <tr>
+                <td>
+                    <p>{{ p.lastName }}   |   </p>
+                </td>
+                <td>
+                    <p>{{ p.name }}   |   </p>
+                </td>
+                <td>
+                    <div id="buttonShowMore">
+                        <a href="#myModalp{{ p.id }}" id="buttonShowMore" class="btn btn-primary" data-toggle="modal">Показать больше</a>
+                        <!-- HTML-код модального окна -->
+                        <div id="myModalp{{ p.id }}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Заголовок модального окна -->
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">Информация о сотруднике: </h4>
+                                        </br> {{ p.name }}
+                                        </br> {{ p.surName }}
+                                        </br> {{ p.lastName }}
+                                        <img id="avatar" src="{% static "img/" %}{{ p.photo }}">
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Email: {{ p.email }}  </p></br>
+                                        <p>Департамент: {{ p.departament }} </p></br>
+                                        <p>Дата рождения: {{ p.birdDate }} </p></br>
+
+                                    </div>
+                                    <!-- Футер модального окна -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        <!--Редактирование сотрудника-->
+                                        <div id="buttonUpdatePeople">
+                                            <a href="#myModaldUpP{{ p.id }}" id="buttonUpdatePeople" class="btn btn-primary" data-toggle="modal">Редактировать сотрудника</a>
+                                            <!-- HTML-код модального окна -->
+                                            <div id="myModaldUpP{{ p.id }}" class="modal fade">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Заголовок модального окна -->
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                            <h4 class="modal-title">Редактировать информацию о сотруднике: </h4>
+                                                            </div>
+                                                        <div class="modal-body">
+                                                            <form action="" method="POST"> {% csrf_token %}
+                                                                <p><label for="id_name">Name:</label> <input value="{{ p.name }}" type="text" name="name" required maxlength="20" id="id_name" /></p>
+                                                                <p><label for="id_surName">SurName:</label> <input value="{{ p.surName }}" type="text" name="surName" required maxlength="20" id="id_surName" /></p>
+                                                                <p><label for="id_lastName">LastName:</label> <input value="{{ p.lastName }}" type="text" name="lastName" required maxlength="20" id="id_lastName" /></p>
+                                                                <p><label for="id_birdDate">BirdDate:</label> <input value="{{ p.birdDate.year }}-{{ p.birdDate.month }}-{{ p.birdDate.day }}" type="text" name="birdDate" required id="id_birdDate" /></p>
+                                                                <p><label for="id_email">Email:</label> <input value="{{ p.email }}" type="email" name="email" required maxlength="254" id="id_email" /></p>
+                                                                <p><label for="id_photo">Photo:</label> <input value="{{ p.photo }}" type="text" name="photo" maxlength="50" id="id_photo" required /></p>
+                                                                <p><label for="id_departament">Departament:</label>{{ form.departament }}
+                                                                <input class = "inputWishId" type="text" id="flag1" value="people" name="update" required="">
+                                                                <input class = "inputWishId" type="text" id="updatePeople" value="{{ p.id }}" name="id" required="">
+                                                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                                            </form>
+                                                        </div>
+                                                        <!-- Футер модального окна -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Конец блока редактирования сотрудника-->
+                                        <form action="" method="POST"> {% csrf_token %}
+                                            <input class = "inputWishId" type="text" id="flag2" value="people" name="delete" required="">
+                                            <input class = "inputWishId" type="text" id="del_pipl" value="{{ p.id }}" name="id" required="">
+                                            <button type="submit" class="btn btn-primary">Удалить сотрудника</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            {% endfor %}
+        </table>
+        <table id = "tableDepartment" class="tables" border="1" frame="border" cellpadding="5" cellspacing="10">
+            {% for d in departament %}
+            <tr>
+                <td>
+                    <p>{{ d.name }}</p>
+                </td>
+                <td>
+                    <div id="buttonShowMore2">
+                        <a href="#myModald{{ d.id }}" id="buttonShowMore2" class="btn btn-primary" data-toggle="modal">Показать больше</a>
+                        <!-- HTML-код модального окна -->
+                        <div id="myModald{{ d.id }}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Заголовок модального окна -->
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">Информация о подразделении: </h4>
+                                        </br> {{ d.name }}
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Адрес: {{ d.address }}  </p></br>
+                                        <p>Веб-сайт: {{ d.website }} </p></br>
+                                    </div>
+                                    <!-- Футер модального окна -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+                                        <!--модальное окно редактирования департамента-->
+                                        <div id="buttonUpdateDep">
+                                            <a href="#myModaldUp{{ d.id }}" id="buttonUpdateDepartment" class="btn btn-primary" data-toggle="modal">Редактировать департамент</a>
+                                            <!-- HTML-код модального окна -->
+                                            <div id="myModaldUp{{ d.id }}" class="modal fade">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Заголовок модального окна -->
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                            <h4 class="modal-title">Редактировать информацию о подразделении: </h4>
+                                                            </br> {{ d.name }}
+                                                            </div>
+                                                        <div class="modal-body">
+                                                            <form action="" method="POST"> {% csrf_token %}
+                                                                <p><label for="id_website">Website:</label> <input value="{{ d.website }}" type="text" name="website" required maxlength="50" id="id_website" /></p>
+                                                                <p><label for="id_name">Name:</label> <input value="{{ d.name }}" type="text" name="name" required maxlength="50" id="id_name" /></p>
+                                                                <p><label for="id_address">Address:</label> <input value="{{ d.address }}" type="text" name="address" required maxlength="100" id="id_address" /></p>
+                                                                <input class = "inputWishId" type="text" id="flag1" value="departament" name="update" required="">
+                                                                <input class = "inputWishId" type="text" id="updateDep" value="{{ d.id }}" name="id" required="">
+                                                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                                            </form>
+                                                        </div>
+                                                        <!-- Футер модального окна -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--конец блока редактирования департамента-->
+                                        <form action="" method="POST"> {% csrf_token %}
+                                            <input class = "inputWishId" type="text" id="flag1" value="departament" name="delete" required="">
+                                            <input class = "inputWishId" type="text" id="del_dep" value="{{ d.id }}" name="id" required="">
+                                            <button type="submit" class="btn btn-primary">Удалить подразделение</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            {% endfor %}
+        </table>
+        <div id="buttonAddDel">
+            <!--кнопка модального окна добавление сотрудника-->
+            <a href="#myModal" id="buttonAddPeople" class="btn btn-primary" data-toggle="modal">Добавить сотрудника</a>
+            <!-- HTML-код модального окна -->
+            <div id="myModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Заголовок модального окна -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Введите информацию о новом сотруднике</h4>
+                        </div>
+                        <form action="" method="POST"> {% csrf_token %}
+                            <div class="modal-body">
+                                {{ form.as_p }}
+                            </div>
+                            <!-- Футер модального окна -->
+                            <div class="modal-footer">
+                                <input class = "inputWishId" type="text" id="flag1" value="people" name="add" required="">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="submit" onclick = "show(1);" class="btn btn-primary">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--кнопка модального окна добавление подразделения-->
+            <a href="#myModal1111" id="buttonAddDepartment" class="btn btn-primary" data-toggle="modal">Добавить подразделение</a>
+            <!-- HTML-код модального окна -->
+            <div id="myModal1111" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Заголовок модального окна -->
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Введите информацию о новом подразделении</h4>
+                        </div>
+                        <!-- Основное содержимое модже ального окна -->
+                        <form id="formAddDep" action="" method="POST"> {% csrf_token %}
+                            <div class="modal-body">
+                                {{ form2.as_p }}
+                            </div>
+                            <!-- Футер модального окна -->
+                            <div class="modal-footer">
+                                <input class = "inputWishId" type="text" id="flag1" value="departament" name="add" required="">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="submit" onclick="cleanForm(id)"  class="btn btn-primary">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
